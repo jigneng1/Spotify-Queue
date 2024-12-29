@@ -3,7 +3,7 @@
 import { addQueue, searchSong } from "@/app/utils/spotify";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 interface ITrack {
   name: string;
@@ -15,7 +15,7 @@ interface ITrack {
   uri: string;
 }
 
-export default function SearchPage() {
+function Search() {
   const [tracks, setTracks] = useState<ITrack[]>([]);
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
@@ -49,7 +49,7 @@ export default function SearchPage() {
                 alt={track.name}
                 className="w-32 h32"
               />
-              <p className="text-lg">{track.name}</p>
+              <p className="text-lg overflow-hidden">{track.name}</p>
               {/* <p>{track.artists.map((artist) => artist.name).join(", ")}</p> */}
             </div>
           </div>
@@ -57,4 +57,12 @@ export default function SearchPage() {
       </div>
     </div>
   );
+}
+
+export default function SearchPage (){
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Search />
+        </Suspense>
+    )
 }
