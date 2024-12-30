@@ -27,10 +27,13 @@ function Search() {
     });
   }, []);
 
-  const AddtoQueue = (uri: string) => {
-    addQueue(uri);
+  const AddtoQueue = async(uri: string) => {
+    const result = await addQueue(uri);
+    if(result.status == 500 ){
+      console.error("Error adding to queue:", result.detail);
+    }
     alert("เพลงถูกเพิ่มเข้าคิวแล้ว");
-    router.replace("/queueList");
+    router.push('/queueList');
   };
 
   return (

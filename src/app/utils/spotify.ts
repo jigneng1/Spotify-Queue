@@ -68,7 +68,11 @@ export const addQueue = async (uri : string) => {
         });
         return response.json();
     } catch (error) {
-        return error;
+        return {
+            status : 500,
+            message : "Error adding to queue",
+            detail : error
+        }
     }
 }
 
